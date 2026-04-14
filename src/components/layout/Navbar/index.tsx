@@ -13,12 +13,12 @@ import {
   useThemeColors,
 } from "../../ui/color-mode";
 import { logo } from "../../../assets/images";
-import { useWindowSize } from "../../../hooks";
+// import { useWindowSize } from "../../../hooks";
 import { RiMenu3Line } from "react-icons/ri";
 
 function Navbar() {
   const { bg, textPrimary, shadowColor } = useThemeColors();
-  const { width } = useWindowSize();
+  // const { width } = useWindowSize();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
 
@@ -209,7 +209,7 @@ function Navbar() {
           padding={5}
           gap={4}
           zIndex={1000}
-          maxH={isMenuOpen ? "300px" : "0px"}
+          maxH={isMenuOpen ? "400px" : "0px"}
           overflow="hidden"
           transition="all 0.3s ease"
         >
