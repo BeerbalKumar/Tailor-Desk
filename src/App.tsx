@@ -10,6 +10,11 @@ import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import ErrorPage from "./pages/ErrorPage";
+import Orders from "./pages/Orders";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
+
+import { useThemeColors } from "./components/ui/color-mode";
 
 // components
 import { Sidebar } from "./components/layout";
@@ -23,11 +28,12 @@ function RootLayout() {
 }
 
 function ProtectedRoute() {
+  const {bg} = useThemeColors();
   const isAuthenticated = localStorage.getItem("user");
   return isAuthenticated ? (
     <Flex h="100vh" overflow="hidden">
       <Sidebar />
-      <Box flex={1} overflowY="auto" bg="gray.50" p={6}>
+      <Box flex={1} overflowY="auto" bg={bg} p={6}>
         <Outlet />
       </Box>
     </Flex>
@@ -62,6 +68,18 @@ const router = createBrowserRouter([
           {
             path: "dashboard",
             element: <Dashboard />,
+          },
+          {
+            path: "orders",
+            element: <Orders />,
+          },
+          {
+            path: "profile",
+            element: <Profile />,
+          },
+          {
+            path: "settings",
+            element: <Settings />,
           },
         ],
       },

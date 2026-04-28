@@ -1,12 +1,36 @@
-import { Box, VStack, HStack, Text, Heading, Container, Icon, Flex, SimpleGrid, Button, Badge } from "@chakra-ui/react";
-import { FiPackage, FiUsers, FiDollarSign, FiShoppingCart, FiArrowUp, FiArrowDown, FiMoreVertical } from "react-icons/fi";
+import {
+  Box,
+  VStack,
+  HStack,
+  Text,
+  Heading,
+  Container,
+  Icon,
+  Flex,
+  SimpleGrid,
+  Button,
+  Badge,
+} from "@chakra-ui/react";
+import {
+  FiPackage,
+  FiUsers,
+  FiDollarSign,
+  FiShoppingCart,
+  FiArrowUp,
+  FiArrowDown,
+  FiMoreVertical,
+} from "react-icons/fi";
+import { useThemeColors,useColorModeValue } from "../../components/ui/color-mode";
 
 function Dashboard() {
+  const { bg, cardBg, textPrimary, textSecondary, borderColor, shadowColor } =
+    useThemeColors();
+
+  const viewAllButtonHover = useColorModeValue("brand.50", "brand.500");
   return (
-    <Box bg="linear(135deg, #f6f9fc 0%, #e9f4ff 100%)" minH="100vh" py={8} px={4}>
+    <Box bg={bg} minH="100vh" py={8} px={4}>
       <Container maxW="container.xl">
         <VStack gap={8} align="stretch">
-          
           {/* Header */}
           <Flex justify="space-between" align="center" mb={6}>
             <VStack align="start" gap={1}>
@@ -14,21 +38,22 @@ function Dashboard() {
                 fontSize={{ base: "2xl", md: "3xl" }}
                 fontWeight="bold"
                 fontFamily="SN Pro, sans-serif"
-                color="brand.800"
+                color={textPrimary}
               >
                 Dashboard Overview
               </Heading>
               <Text
                 fontSize="md"
-                color="gray.600"
+                color={textSecondary}
                 fontFamily="SN Pro, sans-serif"
               >
-                Welcome back! Here's what's happening with your tailoring business today.
+                Welcome back! Here's what's happening with your tailoring
+                business today.
               </Text>
             </VStack>
-            
+
             <Button
-              bgGradient="linear(to-r, brand.600, gold.500)"
+              bg="gold.500"
               color="white"
               size="md"
               px={6}
@@ -39,7 +64,7 @@ function Dashboard() {
               _hover={{
                 transform: "translateY(-2px)",
                 boxShadow: "lg",
-                bgGradient: "linear(to-r, brand.700, gold.600)"
+                bg: "gold.600",
               }}
             >
               <HStack gap={2}>
@@ -52,23 +77,47 @@ function Dashboard() {
           {/* Stats Cards */}
           <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} gap={6} mb={8}>
             {[
-              { label: "Total Orders", value: "1,234", change: "+12.5%", icon: FiPackage, color: "blue" },
-              { label: "Active Clients", value: "847", change: "+8.2%", icon: FiUsers, color: "green" },
-              { label: "Revenue", value: "$45,678", change: "+23.1%", icon: FiDollarSign, color: "gold" },
-              { label: "Pending Orders", value: "23", change: "-5.4%", icon: FiShoppingCart, color: "orange" }
+              {
+                label: "Total Orders",
+                value: "1,234",
+                change: "+12.5%",
+                icon: FiPackage,
+                color: "blue",
+              },
+              {
+                label: "Active Clients",
+                value: "847",
+                change: "+8.2%",
+                icon: FiUsers,
+                color: "green",
+              },
+              {
+                label: "Revenue",
+                value: "$45,678",
+                change: "+23.1%",
+                icon: FiDollarSign,
+                color: "gold",
+              },
+              {
+                label: "Pending Orders",
+                value: "23",
+                change: "-5.4%",
+                icon: FiShoppingCart,
+                color: "orange",
+              },
             ].map((stat, index) => (
               <Box
                 key={stat.label}
-                bg="white"
+                bg={cardBg}
                 border="1px solid"
-                borderColor="gray.200"
+                borderColor={borderColor}
                 borderRadius="xl"
                 boxShadow="md"
                 p={6}
                 transition="all 0.3s ease"
                 _hover={{
                   transform: "translateY(-4px)",
-                  boxShadow: "lg"
+                  boxShadow: "lg",
                 }}
               >
                 <Flex justify="space-between" align="start" mb={4}>
@@ -84,14 +133,14 @@ function Dashboard() {
                     <VStack align="start" gap={1}>
                       <Text
                         fontSize="sm"
-                        color="gray.600"
+                        color={textSecondary}
                         fontFamily="SN Pro, sans-serif"
                         fontWeight="500"
                       >
                         {stat.label}
                       </Text>
                       <HStack gap={2}>
-                        {stat.change.includes('+') ? (
+                        {stat.change.includes("+") ? (
                           <Icon as={FiArrowUp} boxSize={4} color="green.500" />
                         ) : (
                           <Icon as={FiArrowDown} boxSize={4} color="red.500" />
@@ -99,7 +148,9 @@ function Dashboard() {
                         <Text
                           fontSize="xs"
                           fontWeight="600"
-                          color={stat.change.includes('+') ? 'green.500' : 'red.500'}
+                          color={
+                            stat.change.includes("+") ? "green.500" : "red.500"
+                          }
                         >
                           {stat.change}
                         </Text>
@@ -107,19 +158,19 @@ function Dashboard() {
                     </VStack>
                   </HStack>
                 </Flex>
-                
+
                 <VStack align="end">
                   <Text
                     fontSize={{ base: "2xl", md: "3xl" }}
                     fontWeight="bold"
                     fontFamily="SN Pro, sans-serif"
-                    color="brand.800"
+                    color={"gold.500"}
                   >
                     {stat.value}
                   </Text>
                   <Text
                     fontSize="sm"
-                    color="gray.500"
+                    color={textSecondary}
                     fontFamily="SN Pro, sans-serif"
                   >
                     vs last month
@@ -131,9 +182,9 @@ function Dashboard() {
 
           {/* Recent Orders */}
           <Box
-            bg="white"
+            bg={cardBg}
             border="1px solid"
-            borderColor="gray.200"
+            borderColor={borderColor}
             borderRadius="xl"
             boxShadow="md"
             p={6}
@@ -143,21 +194,21 @@ function Dashboard() {
                 fontSize="xl"
                 fontWeight="bold"
                 fontFamily="SN Pro, sans-serif"
-                color="brand.800"
+                color="gold.600"
               >
                 Recent Orders
               </Heading>
               <Button
                 variant="outline"
                 size="sm"
-                borderColor="brand.600"
-                color="brand.600"
+                borderColor={borderColor}
+                color={textPrimary}
                 fontSize="14px"
                 fontWeight="600"
                 borderRadius="full"
                 fontFamily="SN Pro, sans-serif"
                 _hover={{
-                  bg: "brand.50"
+                  bg: viewAllButtonHover,
                 }}
               >
                 View All
@@ -167,18 +218,38 @@ function Dashboard() {
             {/* Orders List */}
             <VStack gap={0} align="stretch">
               {[
-                { id: "ORD-001", customer: "John Doe", status: "completed", amount: "$2,450", date: "2025-01-15" },
-                { id: "ORD-002", customer: "Jane Smith", status: "in-progress", amount: "$1,800", date: "2025-01-14" },
-                { id: "ORD-003", customer: "Mike Johnson", status: "pending", amount: "$3,200", date: "2025-01-13" }
+                {
+                  id: "ORD-001",
+                  customer: "John Doe",
+                  status: "completed",
+                  amount: "$2,450",
+                  date: "2025-01-15",
+                },
+                {
+                  id: "ORD-002",
+                  customer: "Jane Smith",
+                  status: "in-progress",
+                  amount: "$1,800",
+                  date: "2025-01-14",
+                },
+                {
+                  id: "ORD-003",
+                  customer: "Mike Johnson",
+                  status: "pending",
+                  amount: "$3,200",
+                  date: "2025-01-13",
+                },
               ].map((order) => (
                 <Flex
                   key={order.id}
                   px={4}
                   py={3}
                   borderBottom="1px solid"
-                  borderColor="gray.200"
-                  _hover={{ bg: "gray.50" }}
+                  borderColor={borderColor}
+                  bg={cardBg}
+                  _hover={{ bg: viewAllButtonHover }}
                   transition="background 0.2s ease"
+                  cursor="pointer"
                 >
                   <Box flex={1} fontSize="sm" fontFamily="SN Pro, sans-serif">
                     {order.id}
@@ -188,17 +259,39 @@ function Dashboard() {
                   </Box>
                   <Box flex={1}>
                     <Badge
-                      colorScheme={order.status === 'completed' ? 'green' : order.status === 'in-progress' ? 'blue' : 'orange'}
+                      colorScheme={
+                        order.status === "completed"
+                          ? "green"
+                          : order.status === "in-progress"
+                            ? "blue"
+                            : "orange"
+                      }
                       fontSize="xs"
                       fontFamily="SN Pro, sans-serif"
                     >
-                      {order.status === 'completed' ? 'Completed' : order.status === 'in-progress' ? 'In Progress' : 'Pending'}
+                      {order.status === "completed"
+                        ? "Completed"
+                        : order.status === "in-progress"
+                          ? "In Progress"
+                          : "Pending"}
                     </Badge>
                   </Box>
-                  <Box flex={1} textAlign="right" fontSize="sm" fontFamily="SN Pro, sans-serif" fontWeight="600">
+                  <Box
+                    flex={1}
+                    textAlign="right"
+                    fontSize="sm"
+                    fontFamily="SN Pro, sans-serif"
+                    fontWeight="600"
+                  >
                     {order.amount}
                   </Box>
-                  <Box flex={1} textAlign="right" fontSize="sm" fontFamily="SN Pro, sans-serif" color="gray.500">
+                  <Box
+                    flex={1}
+                    textAlign="right"
+                    fontSize="sm"
+                    fontFamily="SN Pro, sans-serif"
+                    color="gray.500"
+                  >
                     {order.date}
                   </Box>
                 </Flex>
@@ -209,15 +302,30 @@ function Dashboard() {
           {/* Quick Actions */}
           <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
             {[
-              { title: "New Order", icon: FiPackage, color: "blue", description: "Create a new tailoring order" },
-              { title: "Add Client", icon: FiUsers, color: "green", description: "Register a new client" },
-              { title: "View Analytics", icon: FiDollarSign, color: "gold", description: "Detailed business insights" }
+              {
+                title: "New Order",
+                icon: FiPackage,
+                color: "blue",
+                description: "Create a new tailoring order",
+              },
+              {
+                title: "Add Client",
+                icon: FiUsers,
+                color: "green",
+                description: "Register a new client",
+              },
+              {
+                title: "View Analytics",
+                icon: FiDollarSign,
+                color: "gold",
+                description: "Detailed business insights",
+              },
             ].map((action) => (
               <Box
                 key={action.title}
-                bg="white"
+                bg={cardBg}
                 border="1px solid"
-                borderColor="gray.200"
+                borderColor={borderColor}
                 borderRadius="xl"
                 boxShadow="md"
                 p={6}
@@ -225,7 +333,7 @@ function Dashboard() {
                 transition="all 0.3s ease"
                 _hover={{
                   transform: "translateY(-4px)",
-                  boxShadow: "lg"
+                  boxShadow: "lg",
                 }}
                 cursor="pointer"
               >
@@ -233,7 +341,7 @@ function Dashboard() {
                   bg={`linear-gradient(135deg, ${action.color}.500, ${action.color}.600)`}
                   p={4}
                   borderRadius="xl"
-                  color="white"
+                  color="gold.500"
                   mb={4}
                 >
                   <Icon as={action.icon} boxSize={8} />
@@ -242,14 +350,14 @@ function Dashboard() {
                   fontSize="lg"
                   fontWeight="bold"
                   fontFamily="SN Pro, sans-serif"
-                  color="brand.800"
+                  color={textPrimary}
                   mb={2}
                 >
                   {action.title}
                 </Heading>
                 <Text
                   fontSize="sm"
-                  color="gray.600"
+                  color={textSecondary}
                   fontFamily="SN Pro, sans-serif"
                 >
                   {action.description}
@@ -257,7 +365,6 @@ function Dashboard() {
               </Box>
             ))}
           </SimpleGrid>
-
         </VStack>
       </Container>
     </Box>

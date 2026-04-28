@@ -1,4 +1,12 @@
-import { Box, VStack, Text, Icon, Flex, IconButton } from "@chakra-ui/react";
+import {
+  Box,
+  VStack,
+  Text,
+  Icon,
+  Flex,
+  IconButton,
+  Image,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import {
@@ -11,7 +19,12 @@ import {
   LuUsers,
   LuTrendingUp,
 } from "react-icons/lu";
-import { useColorModeValue } from "../../ui/color-mode";
+import {
+  useColorModeValue,
+  useThemeColors,
+  ColorModeButton,
+} from "../../ui/color-mode";
+import { logo } from "../../../assets/images";
 
 const navItems = [
   { label: "Dashboard", icon: LuLayoutDashboard, path: "/dashboard" },
@@ -23,33 +36,23 @@ const navItems = [
 ];
 
 export default function Sidebar() {
+  const { bg, cardBg, textPrimary, textSecondary, borderColor, shadowColor } =
+    useThemeColors();
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ── Sidebar shell ───────────────────────────────────────────────
-  const sidebarBg = useColorModeValue("white", "gray.900");
-  const borderColor = useColorModeValue("gray.200", "gray.700");
-
-  // ── Logo bar ────────────────────────────────────────────────────
-  const logoBg = useColorModeValue("gray.900", "gray.950");
-  const logoText = useColorModeValue("white", "gray.100");
-
   // ── Nav items ───────────────────────────────────────────────────
   const textColor = useColorModeValue("gray.700", "gray.300");
-  const hoverBg = useColorModeValue("gray.100", "gray.800");
   const inactiveIcon = useColorModeValue("gray.500", "gray.400");
-  // ── Nav items ───────────────────────────────────────────────────
-  const activeBg = useColorModeValue("gray.900", "amber.500"); // dark bg in light mode
-  const activeText = useColorModeValue("white", "white");
-  const activeIcon = useColorModeValue("white", "white");
-  const activeBar = useColorModeValue("amber.500", "white"); // gold bar in light mode
 
   // ── Toggle button ───────────────────────────────────────────────
-  const toggleBg = useColorModeValue("gray.900", "amber.500");
-  const toggleColor = useColorModeValue("white", "gray.900");
-  const toggleHover = useColorModeValue("gray.700", "amber.400");
-  const toggleBorder = useColorModeValue("gray.700", "amber.600");
+  const toggleHover = useColorModeValue("neutral.200", "neutral.800");
+
+  const navItemHoverBgModeValue = useColorModeValue(
+    "neutral.200",
+    "neutral.800",
+  );
 
   // ── Footer text ─────────────────────────────────────────────────
   const footerColor = useColorModeValue("gray.400", "gray.600");
@@ -57,8 +60,8 @@ export default function Sidebar() {
   return (
     <Box
       h="100vh"
-      w={collapsed ? "70px" : "260px"}
-      bg={sidebarBg}
+      w={collapsed ? "60px" : "260px"}
+      bg={bg}
       color={textColor}
       transition="width 0.3s ease"
       position="relative"
@@ -71,32 +74,24 @@ export default function Sidebar() {
     >
       {/* ── Logo ── */}
       <Flex
-        h="72px"
+        h="120px"
         align="center"
         px={collapsed ? 3 : 5}
         borderBottom="1px solid"
         borderColor={borderColor}
-        bg={logoBg}
-        flexShrink={0}
+        // bg={logoBg}
+        // flexShrink={0}
+        justifyContent="center"
+        alignItems="center"
       >
-        <Flex align="center" gap={3}>
-          <Box
-            bg="amber.500"
-            p={1.5}
-            borderRadius="md"
-            flexShrink={0}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Icon as={LuLayoutDashboard} boxSize={5} color="white" />
-          </Box>
+        <Flex align="center" flexDirection={"column"}>
+          <Image src={logo} alt="Tailor Desk Logo" height="60px" width="60px" />
           {!collapsed && (
             <Text
               fontWeight="700"
-              fontSize="lg"
+              fontSize="xl"
               letterSpacing="tight"
-              color={logoText}
+              color="gold.500"
               fontFamily="SN Pro, sans-serif"
             >
               Tailor Desk
@@ -106,7 +101,7 @@ export default function Sidebar() {
       </Flex>
 
       {/* ── Nav items ── */}
-      <VStack gap={1} align="stretch" p={3} mt={2} flex={1}>
+      <VStack gap={1} align="stretch" flex={1}>
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
@@ -115,11 +110,12 @@ export default function Sidebar() {
               align="center"
               gap={3}
               px={3}
-              py={2.5}
-              borderRadius="lg"
+              py={3}
+              // borderRadius="lg"
               cursor="pointer"
-              bg={isActive ? activeBg : "transparent"}
-              _hover={{ bg: isActive ? activeBg : hoverBg }}
+              bg={isActive ? navItemHoverBgModeValue : "transparent"}
+              // bg={"transparent"}
+              _hover={{ bg: navItemHoverBgModeValue }}
               onClick={() => navigate(item.path)}
               transition="all 0.2s ease"
               position="relative"
@@ -133,8 +129,8 @@ export default function Sidebar() {
                   top="50%"
                   transform="translateY(-50%)"
                   w="3px"
-                  h="20px"
-                  bg={activeBar} // ← was activeText (white on white = invisible)
+                  h="100%"
+                  bg={"gold.500"} // ← was activeText (white on white = invisible)
                   borderRadius="0 4px 4px 0"
                 />
               )}
@@ -143,14 +139,14 @@ export default function Sidebar() {
                 as={item.icon}
                 boxSize={5}
                 flexShrink={0}
-                color={isActive ? activeIcon : inactiveIcon}
+                color={isActive ? "gold.500" : inactiveIcon}
                 transition="color 0.2s ease"
               />
               {!collapsed && (
                 <Text
                   fontSize="sm"
                   fontWeight={isActive ? "600" : "400"}
-                  color={isActive ? activeText : textColor}
+                  color={isActive ? "gold.500" : textColor}
                   transition="color 0.2s ease"
                 >
                   {item.label}
@@ -162,13 +158,16 @@ export default function Sidebar() {
       </VStack>
 
       {/* ── Footer ── */}
+      <Flex justifyContent="center" alignItems="center" py={2} flexDirection="column">
       {!collapsed && (
-        <Box px={4} py={4} borderTop="1px solid" borderColor={borderColor}>
-          <Text fontSize="xs" color={footerColor} textAlign="center">
+        <Box px={4} py={4} borderTop="1px solid" borderColor={borderColor} width="100%">
+          <Text fontSize="xs" color={textSecondary} textAlign="center">
             © 2025 Tailor Desk
           </Text>
         </Box>
       )}
+      <ColorModeButton />
+      </Flex>
 
       {/* ── Collapse toggle ── */}
       <IconButton
@@ -178,15 +177,15 @@ export default function Sidebar() {
         position="absolute"
         top="24px"
         right="-16px"
-        bg={toggleBg}
-        color={toggleColor}
+        bg={navItemHoverBgModeValue}
+        color={textColor}
         _hover={{ bg: toggleHover, transform: "scale(1.1)" }}
         _active={{ transform: "scale(0.95)" }}
         onClick={() => setCollapsed(!collapsed)}
         transition="all 0.2s ease"
         boxShadow="md"
         border="2px solid"
-        borderColor={toggleBorder}
+        borderColor={borderColor}
         zIndex={10}
       >
         <Icon as={collapsed ? LuChevronRight : LuChevronLeft} boxSize={4} />
