@@ -13,6 +13,9 @@ import ErrorPage from "./pages/ErrorPage";
 import Orders from "./pages/Orders";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import Analytics from "./pages/Analytics";
+import Clients from "./pages/Clients";
+import AddClient from "./pages/AddClient";
 
 import { useThemeColors } from "./components/ui/color-mode";
 
@@ -74,12 +77,24 @@ const router = createBrowserRouter([
             element: <Orders />,
           },
           {
+            path: "clients",
+            element: <Clients />,
+          },
+          {
+            path: "add-client",
+            element: <AddClient />,
+          },
+          {
             path: "profile",
             element: <Profile />,
           },
           {
             path: "settings",
             element: <Settings />,
+          },
+          {
+            path: "analytics",
+            element: <Analytics />,
           },
         ],
       },
